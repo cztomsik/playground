@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>mini-liero</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #14161c; }
+  #game { display: block; }
+  #hud {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 10px 16px; color: #eee; font: 14px/1.5 monospace;
+    pointer-events: none; text-shadow: 0 1px 3px #000;
+  }
+  #hpbar { width: 180px; height: 12px; background: #333; border: 1px solid #666; margin-bottom: 4px; }
+  #hpfill { height: 100%; width: 100%; background: #5a5; transition: width 0.1s; }
+  #msg {
+    position: fixed; top: 18%; width: 100%; text-align: center;
+    color: #eee; font: 26px monospace; pointer-events: none;
+    text-shadow: 0 0 10px #000;
+  }
+  #msg small { font-size: 14px; color: #aab; }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="msg">mini-liero<br><small>WASD / arrows: drive &amp; turn &nbsp;&middot;&nbsp; mouse: aim &nbsp;&middot;&nbsp; click/hold: fire<br><br>PRESS ANY KEY</small></div>
+<div id="hud">
+  <div>
+    <div id="hpbar"><div id="hpfill"></div></div>
+    <div id="stats"></div>
+  </div>
+  <div id="score"></div>
+</div>
+<script src="js/terrain.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/player.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

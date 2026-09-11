@@ -16,6 +16,21 @@ Navigate through procedurally generated mazes. Test your pathfinding skills as y
 ### Sokoban
 Classic box-pushing puzzle game. Push boxes onto target locations using arrow keys or WASD. Features multiple levels of increasing difficulty.
 
+### Arkanoid
+Brick-breaking arcade game with emoji-themed graphics. Use your paddle to bounce the ball and destroy all the bricks.
+
+### Poker
+Texas Hold'em poker game with AI opponents. Test your card skills and bluffing strategy against computer players.
+
+### Snake
+Classic snake game. Control a growing snake to eat food while avoiding collisions with walls and your own tail.
+
+### WebOS
+Browser-based desktop environment simulation. Experience a web-based operating system with windows, apps, and a familiar desktop interface.
+
+### Mini-Liero
+Liero-style arena shooter with destructible terrain. Pilot your tank with W/S to thrust and A/D to turn, aim with the mouse, and fire — your own blasts hurt you too. Fight three AI bots with hunt and lead-shot behavior across a rock map that gets carved up by every explosion.
+
 ## Running
 
 Simply open `index.html` in a browser to see all available games, or navigate directly to any game folder.

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#1c1c2e" />
+  <title>Sound Button</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <style>
+    :root {
+      --bg: #1c1c2e;
+      --card: #262640;
+      --accent: #6c5ce7;
+      --accent-pressed: #5a4bd1;
+      --text: #f1f1f7;
+      --muted: #9a9ab5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+      user-select: none;
+    }
+    h1 { font-size: 1.2rem; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; }
+
+    /* Big play button */
+    #playBtn {
+      width: min(260px, 70vw);
+      height: min(260px, 70vw);
+      border-radius: 50%;
+      border: none;
+      background: radial-gradient(circle at 30% 30%, #8577f0, var(--accent));
+      color: white;
+      font-size: 4.5rem;
+      cursor: pointer;
+      box-shadow: 0 12px 40px rgba(108, 92, 231, 0.45);
+      transition: transform 0.08s ease, background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #playBtn:active { transform: scale(0.94); background: var(--accent-pressed); }
+
+    /* Quick actions under the big button */
+    .quick-row { display: flex; gap: 16px; }
+    .quick-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--card);
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    .quick-btn:active { transform: scale(0.92); }
+    #recBtn.recording {
+      background: #e74c3c;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.6); }
+      50% { box-shadow: 0 0 0 14px rgba(231, 76, 60, 0); }
+    }
+    #recTimer {
+      color: #e74c3c;
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+      min-height: 1.2em;
+    }
+
+    /* Settings */
+    #settings {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      width: min(340px, 100%);
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+    #settings.open { display: flex; }
+    .row { display: flex; flex-direction: column; gap: 6px; }
+    label { font-size: 0.8rem; color: var(--muted); }
+    select, input[type="range"] {
+      width: 100%;
+      background: #1c1c2e;
+      color: var(--text);
+      border: 1px solid #3a3a5c;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 0.95rem;
+    }
+    input[type="range"] { padding: 0; accent-color: var(--accent); }
+    .range-value { font-size: 0.75rem; color: var(--muted); text-align: right; }
+    .btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn:active { background: var(--accent); color: white; }
+    .btn-row { display: flex; gap: 8px; }
+    .btn-row .btn { flex: 1; }
+    #gearBtn {
+      position: fixed;
+      top: calc(16px + env(safe-area-inset-top));
+      right: 16px;
+      background: var(--card);
+      border: none;
+      color: var(--text);
+      font-size: 1.4rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .file-name { font-size: 0.75rem; color: var(--muted); word-break: break-all; }
+    #fileInput { display: none; }
+  </style>
+</head>
+<body>
+  <button id="gearBtn" aria-label="Settings">&#9881;</button>
+
+  <h1>Sound Button</h1>
+
+  <button id="playBtn" aria-label="Play sound">&#9835;</button>
+
+  <div class="quick-row">
+    <button id="uploadBtn" class="quick-btn" aria-label="Upload sound" title="Upload sound file">&#11014;&#65039;</button>
+    <button id="recBtn" class="quick-btn" aria-label="Record sound" title="Record from microphone">&#127908;</button>
+  </div>
+  <div id="recTimer"></div>
+
+  <div id="settings">
+    <div class="row">
+      <label for="soundSource">Sound source</label>
+      <select id="soundSource">
+        <option value="file">Custom file</option>
+        <option value="tone">Tone</option>
+      </select>
+    </div>
+
+    <div class="row" id="fileRow">
+      <label>Audio file (stored on this device)</label>
+      <div class="btn-row">
+        <button class="btn" id="pickFileBtn">Choose file…</button>
+        <button class="btn" id="recBtn2">Record</button>
+        <button class="btn" id="removeFileBtn" style="display:none">Remove</button>
+      </div>
+      <div class="file-name" id="fileName">No file selected</div>
+      <input type="file" id="fileInput" accept="audio/*" />
+    </div>
+
+    <div class="row" id="toneRow">
+      <label for="tonePreset">Preset</label>
+      <select id="tonePreset">
+        <option value="ding">Ding</option>
+        <option value="beep">Beep</option>
+        <option value="chime">Chime</option>
+        <option value="alarm">Alarm</option>
+        <option value="custom">Custom frequency…</option>
+      </select>
+    </div>
+
+    <div class="row" id="customFreqRow" style="display:none">
+      <label for="freq">Frequency: <span id="freqVal">440</span> Hz</label>
+      <input type="range" id="freq" min="60" max="2000" step="1" value="440" />
+    </div>
+
+    <div class="row">
+      <label for="volume">Volume: <span id="volVal">80</span>%</label>
+      <input type="range" id="volume" min="0" max="100" value="80" />
+    </div>
+
+    <div class="row">
+      <label for="loop">
+        <input type="checkbox" id="loop" style="width:auto" /> Loop until pressed again
+      </label>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

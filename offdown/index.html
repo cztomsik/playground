@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OffDown - Markdown Editor</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>OffDown</h1>
+    </div>
+    <div class="header-center">
+      <button id="btn-edit" class="mode-btn active" title="Edit mode">Edit</button>
+      <button id="btn-preview" class="mode-btn" title="Preview mode">Preview</button>
+    </div>
+    <div class="header-right">
+      <button id="btn-open" title="Open file">Open</button>
+      <button id="btn-save" title="Save file">Save</button>
+      <button id="btn-export" title="Export as .md">Export</button>
+      <button id="btn-theme" title="Toggle theme">Theme</button>
+    </div>
+  </header>
+  <main>
+    <textarea id="editor" placeholder="Write your markdown here..." spellcheck="false"></textarea>
+    <div id="preview" class="hidden"></div>
+  </main>
+  <input type="file" id="file-input" accept=".md,.markdown,.text" hidden>
+  <script src="js/marked.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
